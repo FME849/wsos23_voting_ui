@@ -1,0 +1,233 @@
+{
+  "version": "0.1.0",
+  "name": "wsos23_voting_app",
+  "instructions": [
+    {
+      "name": "createElection",
+      "accounts": [
+        {
+          "name": "electionData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "electionId",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "apply",
+      "accounts": [
+        {
+          "name": "candidateData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "electionData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "changeStage",
+      "accounts": [
+        {
+          "name": "electionData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        }
+      ],
+      "args": [
+        {
+          "name": "newStage",
+          "type": {
+            "defined": "ElectionStage"
+          }
+        }
+      ]
+    },
+    {
+      "name": "vote",
+      "accounts": [
+        {
+          "name": "myVote",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "candidateData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "signer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "electionData",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "ElectionData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "string"
+          },
+          {
+            "name": "candidates",
+            "type": "u64"
+          },
+          {
+            "name": "stage",
+            "type": {
+              "defined": "ElectionStage"
+            }
+          },
+          {
+            "name": "initiator",
+            "type": "publicKey"
+          },
+          {
+            "name": "winnersId",
+            "type": "u64"
+          },
+          {
+            "name": "winnersVotes",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "CandidateData",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "pubkey",
+            "type": "publicKey"
+          },
+          {
+            "name": "votes",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MyVote",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "id",
+            "type": "u64"
+          },
+          {
+            "name": "pubkey",
+            "type": "publicKey"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "ElectionStage",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Application"
+          },
+          {
+            "name": "Voting"
+          },
+          {
+            "name": "Closed"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ApplicationIsClosed",
+      "msg": "The application is closed"
+    },
+    {
+      "code": 6001,
+      "name": "WrongPublicKey",
+      "msg": "The publicKey does not match"
+    },
+    {
+      "code": 6002,
+      "name": "WrongInitiator",
+      "msg": "You are not Initiator"
+    },
+    {
+      "code": 6003,
+      "name": "NotVotingStage",
+      "msg": "Not at votingStage"
+    },
+    {
+      "code": 6004,
+      "name": "VotingEnded",
+      "msg": "Voting stage has ended"
+    }
+  ],
+  "metadata": {
+    "address": "DAExTRo6cEotQAgtREjCrS6R2tL54VfgBWsP7xozMiht"
+  }
+}
